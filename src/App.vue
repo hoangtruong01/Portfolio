@@ -15,9 +15,12 @@ import { projectVisible } from "./composables/useRouteObserver";
 import ProjectBackground from "./features/projects/components/ProjectBackground.vue";
 import { useClickSound } from "./features/sounds/composables/useClickSounds";
 //import { useHoverSound } from "./features/sounds/composables/useHoverSounds";
+import { applyTheme } from "./composables/useTheme";
+import AvatarCustomizer from "./components/AvatarCustomizer.vue";
 
 const { isTransitioning } = useProjectTransition();
 
+applyTheme();
 useTranslations();
 usePreloader();
 useMusic();
@@ -52,6 +55,7 @@ const { isTouch } = useAgent();
   </div>
 
   <Cursor v-if="!isTouch" />
+  <AvatarCustomizer />
 </template>
 
 <style lang="scss">

@@ -1,4 +1,4 @@
-import { WebGLRenderer, Vector3 } from "three";
+import { WebGLRenderer, Vector3, Color } from "three";
 import gsap from "gsap";
 import { scene } from "./scene";
 import { renderTarget } from "./renderTarget";
@@ -6,6 +6,7 @@ import { camera } from "./camera";
 import { sceneWeights } from "../../animations/scenes";
 import { colors } from "../common/colors";
 import { threeSizes } from "../utils/sizes";
+import { isDark } from "../../composables/useTheme";
 
 import type { Camera, Object3D, Scene } from "three";
 
@@ -55,7 +56,9 @@ const tick = () => {
     renderTarget.render();
   }
 
-  const color = sceneWeights.contact > 0.001 ? colors.beigeDark : colors.beigeLight;
+  const color = isDark.value
+    ? (sceneWeights.contact > 0.001 ? new Color("#0d0c0a") : new Color("#12110e"))
+    : (sceneWeights.contact > 0.001 ? colors.beigeDark : colors.beigeLight);
   instance.setClearColor(color);
   instance.render(scene.instance, camera.instance);
 };

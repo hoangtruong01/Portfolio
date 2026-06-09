@@ -2,6 +2,7 @@
 #include ../includes/about-ambient.glsl;
 
 uniform sampler2D uMatcap;
+uniform vec3 uColorTint;
 
 varying vec3 vViewNormal;
 varying vec3 vViewPosition;
@@ -15,6 +16,8 @@ void main() {
     vec2 uv = vec2(dot(x, vNormal), dot(y, vNormal)) * 0.495 + 0.5;
 
     vec3 matcapColor = texture2D(uMatcap, uv).rgb;
+
+    matcapColor *= uColorTint;
 
     float progress = getProgress();
 

@@ -4,6 +4,7 @@ import fragmentShader from "../../shaders/avatar-face/fragment.glsl";
 import vertexShader from "../../shaders/avatar-face/vertex.glsl";
 import { avatar } from "./index";
 import gsap from "gsap";
+import { faceExpression } from "../../../composables/useAvatarCustomizer";
 
 import type { Material } from "three";
 import { sceneWeights } from "../../../animations/scenes";
@@ -104,6 +105,17 @@ const wave = () => {
 };
 
 const tick = () => {
+  if (faceExpression.value !== "auto") {
+    let name = faceExpression.value;
+    if (name === "default") {
+      name = `default-${Math.round(blinkFrame.value)}`;
+    } else if (name === "proud") {
+      name = `proud-${Math.round(blinkFrame.value)}`;
+    }
+    uniforms.uFrame.value = FRAME_INDEXES[name as keyof typeof FRAME_INDEXES] ?? 0;
+    return;
+  }
+
   const isContact = sceneWeights.contact > 0.001;
   if (isContact) {
     const name = sceneFrames.contact.startsWith("proud")

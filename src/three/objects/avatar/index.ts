@@ -1,5 +1,5 @@
 import { resources } from "../../../utils/resources";
-import { Mesh, Vector3, Euler, Group, ShaderMaterial, LinearSRGBColorSpace } from "three";
+import { Mesh, Vector3, Euler, Group, ShaderMaterial, LinearSRGBColorSpace, Color } from "three";
 import { scene } from "../../core/scene";
 import { animations } from "./animations";
 import { sceneWeights, sceneWeightsInOut } from "../../../animations/scenes";
@@ -12,12 +12,15 @@ import headVertexShader from "../../shaders/avatar-head/vertex.glsl";
 import headFragmentShader from "../../shaders/avatar-head/fragment.glsl";
 import gsap from "gsap";
 import { aboutProgress } from "../../../animations/transitions/about";
+import { shirtColor, pantsColor, hairColor, skinColor } from "../../../composables/useAvatarCustomizer";
+import { watch } from "vue";
 //import { avatarHologram } from "./hologram";
 
 import type { Material, Bone, Texture } from "three";
 
 let mesh: Mesh | null = null;
 let rightHandBone: Bone | null = null;
+const avatarMaterials = new Map<string, ShaderMaterial>();
 
 const tIdleIntensity = { value: 0 };
 
@@ -34,6 +37,52 @@ const init = () => {
   face.init();
   avatarLeftDesktop.init();
   gsap.ticker.add(tick);
+};
+
+const updateAvatarColors = () => {
+  if (!mesh) return;
+
+  // 1. Shirt (mesh name: "white")
+  const whiteMat = avatarMaterials.get("white");
+  if (whiteMat) {
+    whiteMat.uniforms.uColorTint?.value.set(shirtColor.value);
+  }
+
+  // 2. Pants (mesh name: "gray")
+  const grayMat = avatarMaterials.get("gray");
+  if (grayMat) {
+    grayMat.uniforms.uColorTint?.value.set(pantsColor.value);
+    const grayMesh = mesh.getObjectByName("gray") as Mesh;
+    if (grayMesh) {
+      grayMesh.userData.matcap = pantsColor.value !== "#808080"
+        ? resources.items["matcap-white"]
+        : resources.items["matcap-gray"];
+    }
+  }
+
+  // 3. Hair (mesh name: "black")
+  const blackMat = avatarMaterials.get("black");
+  if (blackMat) {
+    blackMat.uniforms.uColorTint?.value.set(hairColor.value);
+    const blackMesh = mesh.getObjectByName("black") as Mesh;
+    if (blackMesh) {
+      blackMesh.userData.matcap = hairColor.value !== "#2d2a24"
+        ? resources.items["matcap-white"]
+        : resources.items["matcap-black"];
+    }
+  }
+
+  // 4. Skin (mesh name: "skin")
+  const skinMat = avatarMaterials.get("skin");
+  if (skinMat) {
+    skinMat.uniforms.uColorTint?.value.set(skinColor.value);
+    const skinMesh = mesh.getObjectByName("skin") as Mesh;
+    if (skinMesh) {
+      skinMesh.userData.matcap = skinColor.value !== "#f1d5c5"
+        ? resources.items["matcap-white"]
+        : resources.items["matcap-skin"];
+    }
+  }
 };
 
 const getMaterial = (name: string): Material | null => {
@@ -64,6 +113,7 @@ const getMaterial = (name: string): Material | null => {
     transparent: true,
     uniforms: {
       uMatcap: { value: tex },
+      uColorTint: { value: new Color(1, 1, 1) },
       ...uniforms,
     },
   });
@@ -106,6 +156,10 @@ const setupMesh = () => {
       child.frustumCulled = false;
       child.renderOrder = child.name === "face" ? 25 : 24;
 
+      if (mat instanceof ShaderMaterial) {
+        avatarMaterials.set(child.name, mat);
+      }
+
       const hasMatcap = assignMatcap(child);
       if (hasMatcap) {
         child.onBeforeRender = () => {
@@ -127,6 +181,10 @@ const setupMesh = () => {
   rightHandBone = mesh.getObjectByName("bone-right-hand") as Bone;
 
   scene.instance.add(transform);
+
+  // Setup initial colors and watcher
+  updateAvatarColors();
+  watch([shirtColor, pantsColor, hairColor, skinColor], updateAvatarColors);
 };
 
 const tick = () => {

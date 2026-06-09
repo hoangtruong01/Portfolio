@@ -3,10 +3,10 @@ import { contact } from ".";
 import { getShadowMaterial } from "../../common/materials";
 import { colors } from "../../common/colors";
 import { Color } from "three";
+import { isDark } from "../../../composables/useTheme";
 
 import type { Object3D } from "three";
 
-const backgroundColor = colors.beigeDark.clone().convertLinearToSRGB();
 const shadowColor = new Color("rgb(208, 185, 156)");
 
 const init = () => {
@@ -24,8 +24,16 @@ const initObjects = () => {
   mesh.material = getShadowMaterial();
   mesh.onBeforeRender = () => {
     mesh.material.uniforms.uTexture.value = texture;
-    mesh.material.uniforms.uColorBackground.value = backgroundColor;
-    mesh.material.uniforms.uColorShadow.value = shadowColor;
+
+    const bg = isDark.value
+      ? new Color("#0d0c0a").convertLinearToSRGB()
+      : colors.beigeDark.clone().convertLinearToSRGB();
+    const sc = isDark.value
+      ? new Color("#040403")
+      : shadowColor;
+
+    mesh.material.uniforms.uColorBackground.value = bg;
+    mesh.material.uniforms.uColorShadow.value = sc;
   };
 
   mesh.renderOrder = -1000;
