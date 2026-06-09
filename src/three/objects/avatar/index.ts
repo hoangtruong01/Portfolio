@@ -12,7 +12,7 @@ import headVertexShader from "../../shaders/avatar-head/vertex.glsl";
 import headFragmentShader from "../../shaders/avatar-head/fragment.glsl";
 import gsap from "gsap";
 import { aboutProgress } from "../../../animations/transitions/about";
-import { shirtColor, pantsColor, hairColor, skinColor } from "../../../composables/useAvatarCustomizer";
+import { shirtColor, pantsColor, hairColor, skinColor, shoesColor } from "../../../composables/useAvatarCustomizer";
 import { watch } from "vue";
 //import { avatarHologram } from "./hologram";
 
@@ -42,33 +42,39 @@ const init = () => {
 const updateAvatarColors = () => {
   if (!mesh) return;
 
-  // 1. Shirt (mesh name: "white")
-  const whiteMat = avatarMaterials.get("white");
-  if (whiteMat) {
-    whiteMat.uniforms.uColorTint?.value.set(shirtColor.value);
-  }
-
-  // 2. Pants (mesh name: "gray")
+  // 1. Shirt (mesh name: "gray")
   const grayMat = avatarMaterials.get("gray");
   if (grayMat) {
-    grayMat.uniforms.uColorTint?.value.set(pantsColor.value);
+    grayMat.uniforms.uColorTint?.value.set(shirtColor.value);
     const grayMesh = mesh.getObjectByName("gray") as Mesh;
     if (grayMesh) {
-      grayMesh.userData.matcap = pantsColor.value !== "#808080"
+      grayMesh.userData.matcap = shirtColor.value !== "#808080"
         ? resources.items["matcap-white"]
         : resources.items["matcap-gray"];
     }
   }
 
-  // 3. Hair (mesh name: "black")
+  // 2. Pants (mesh name: "black")
   const blackMat = avatarMaterials.get("black");
   if (blackMat) {
-    blackMat.uniforms.uColorTint?.value.set(hairColor.value);
+    blackMat.uniforms.uColorTint?.value.set(pantsColor.value);
     const blackMesh = mesh.getObjectByName("black") as Mesh;
     if (blackMesh) {
-      blackMesh.userData.matcap = hairColor.value !== "#2d2a24"
+      blackMesh.userData.matcap = pantsColor.value !== "#2d2a24"
         ? resources.items["matcap-white"]
         : resources.items["matcap-black"];
+    }
+  }
+
+  // 3. Shoes (mesh name: "white")
+  const whiteMat = avatarMaterials.get("white");
+  if (whiteMat) {
+    whiteMat.uniforms.uColorTint?.value.set(shoesColor.value);
+    const whiteMesh = mesh.getObjectByName("white") as Mesh;
+    if (whiteMesh) {
+      whiteMesh.userData.matcap = shoesColor.value !== "#ffffff"
+        ? resources.items["matcap-white"]
+        : resources.items["matcap-white"];
     }
   }
 
@@ -82,6 +88,12 @@ const updateAvatarColors = () => {
         ? resources.items["matcap-white"]
         : resources.items["matcap-skin"];
     }
+  }
+
+  // 5. Hair (mesh name: "head")
+  const headMat = avatarMaterials.get("head");
+  if (headMat) {
+    headMat.uniforms.uHairColorTint?.value.set(hairColor.value);
   }
 };
 
@@ -98,6 +110,7 @@ const getMaterial = (name: string): Material | null => {
       transparent: true,
       uniforms: {
         uHeadTexture: { value: texture },
+        uHairColorTint: { value: new Color(1, 1, 1) },
         ...uniforms,
       },
     });
@@ -184,7 +197,7 @@ const setupMesh = () => {
 
   // Setup initial colors and watcher
   updateAvatarColors();
-  watch([shirtColor, pantsColor, hairColor, skinColor], updateAvatarColors);
+  watch([shirtColor, pantsColor, hairColor, skinColor, shoesColor], updateAvatarColors);
 };
 
 const tick = () => {

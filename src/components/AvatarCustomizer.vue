@@ -3,6 +3,7 @@ import { ref } from "vue";
 import {
   shirtColor,
   pantsColor,
+  shoesColor,
   hairColor,
   skinColor,
   faceExpression,
@@ -17,14 +18,16 @@ const togglePanel = () => {
 };
 
 // Curated preset colors that look amazing in 3D
-const shirtPresets = ["#ffffff", "#ff8400", "#34bfff", "#ff5c8a", "#2bd97e", "#ffd23f"];
-const pantsPresets = ["#67727c", "#2d2a24", "#052e87", "#e9ded0", "#4f5d2f"];
+const shirtPresets = ["#808080", "#ffffff", "#ff8400", "#34bfff", "#ff5c8a", "#ffd23f"];
+const pantsPresets = ["#2d2a24", "#67727c", "#052e87", "#e9ded0", "#4f5d2f"];
+const shoesPresets = ["#ffffff", "#2d2a24", "#ff8400", "#34bfff", "#ff5c8a"];
 const hairPresets = ["#2d2a24", "#d4a373", "#ccd5ae", "#e07a5f", "#f4f1de", "#3d348b"];
 const skinPresets = ["#f1d5c5", "#e0a98c", "#c68b6c", "#a16b4f", "#ffd8be"];
 
-const selectPreset = (type: "shirt" | "pants" | "hair" | "skin", color: string) => {
+const selectPreset = (type: "shirt" | "pants" | "shoes" | "hair" | "skin", color: string) => {
   if (type === "shirt") shirtColor.value = color;
   if (type === "pants") pantsColor.value = color;
+  if (type === "shoes") shoesColor.value = color;
   if (type === "hair") hairColor.value = color;
   if (type === "skin") skinColor.value = color;
   saveAvatarSettings();
@@ -109,6 +112,25 @@ const handleReset = () => {
             ></button>
             <div class="color-picker-wrapper">
               <input type="color" v-model="pantsColor" @change="saveAvatarSettings" class="picker-input" />
+              <span class="picker-icon">🎨</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Shoes Color Selection -->
+        <div class="control-group">
+          <label>Màu Giày (Shoes)</label>
+          <div class="presets">
+            <button
+              v-for="color in shoesPresets"
+              :key="color"
+              class="preset-color"
+              :style="{ backgroundColor: color }"
+              :class="{ 'is-selected': shoesColor === color }"
+              @click="selectPreset('shoes', color)"
+            ></button>
+            <div class="color-picker-wrapper">
+              <input type="color" v-model="shoesColor" @change="saveAvatarSettings" class="picker-input" />
               <span class="picker-icon">🎨</span>
             </div>
           </div>
