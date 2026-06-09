@@ -196,6 +196,12 @@ const setupMesh = () => {
   scene.instance.add(transform);
 
   // Setup initial colors and watcher
+  const blackMesh = mesh.getObjectByName("black") as Mesh;
+  if (blackMesh) {
+    blackMesh.geometry.computeBoundingBox();
+    console.log("Black mesh bounding box:", blackMesh.geometry.boundingBox);
+  }
+
   updateAvatarColors();
   watch([shirtColor, pantsColor, hairColor, skinColor, shoesColor], updateAvatarColors);
 };

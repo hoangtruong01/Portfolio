@@ -10,12 +10,14 @@ varying vec2 vUv;
 void main() {
     vec4 tex = texture2D(uHeadTexture, vUv);
 
-    // Segment hair vs skin. Hair on the head texture is darker: R < 0.48, G < 0.42, B < 0.38
-    bool isHair = (tex.r < 0.48 && tex.g < 0.42 && tex.b < 0.38);
+    // Segment hair vs skin. Hair on the head texture is darker (R < 0.75, G < 0.62)
+    // Skin (face, ears, neck) has R > 0.8. We exclude the black background (R, G < 0.02)
+    bool isHair = (tex.r < 0.75 && tex.g < 0.62 && tex.b < 0.55 && (tex.r > 0.02 || tex.g > 0.02));
 
     if (isHair) {
         float luma = dot(tex.rgb, vec3(0.299, 0.587, 0.114));
-        luma = clamp(luma * 1.5, 0.0, 1.0);
+        // Normalize and scale luma so that colors are vibrant but retain shadow details
+        luma = clamp(luma * 1.6, 0.0, 1.0);
         tex.rgb = luma * uHairColorTint;
     }
 
