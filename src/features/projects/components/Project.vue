@@ -16,7 +16,8 @@ const error = ref<Error | null>(null);
 
 const fetchProject = async (project: string | undefined) => {
   try {
-    const module = await projectModules[locale.value as Locale][project as string].default;
+    const key = (project as string).toLowerCase();
+    const module = await projectModules[locale.value as Locale][key].default;
     content.value = module;
     loading.value = false;
   } catch (err) {
