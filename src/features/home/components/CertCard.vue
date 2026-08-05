@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref } from "vue";
 import type { Certificate } from "../../../content/certificates";
-import Link from "../../../components/Link.vue";
-import gsap from "gsap";
 
-const props = defineProps<{
+defineProps<{
   certificate: Certificate;
   index: number;
 }>();

@@ -16,6 +16,8 @@ export type TagVariant =
   | "ai"
   | "vue"
   | "tailwind"
+  | "nuxt"
+  | "maps"
   | "typescript";
 
 export const tagLabels = {
@@ -36,5 +38,7 @@ export const tagLabels = {
   ai: "AI / LLM",
   vue: "Vue.js",
   tailwind: "Tailwind CSS",
+  nuxt: "Nuxt.js",
+  maps: "Google Maps",
   typescript: "TypeScript",
 } as const satisfies Record<TagVariant, string>;
