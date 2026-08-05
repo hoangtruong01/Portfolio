@@ -31,7 +31,13 @@ const isHovered = ref(false);
     <div class="cert-card-content">
       <!-- Issuer badge -->
       <div class="cert-card-badge" :style="{ '--issuer-color': certificate.issuerColor }">
-        <span class="cert-card-badge-text">{{ certificate.issuerShort }}</span>
+        <img
+          v-if="certificate.issuerLogo"
+          :src="certificate.issuerLogo"
+          :alt="certificate.issuer + ' logo'"
+          class="cert-card-badge-logo"
+        />
+        <span v-else class="cert-card-badge-text">{{ certificate.issuerShort }}</span>
       </div>
 
       <!-- Info -->
@@ -124,23 +130,25 @@ const isHovered = ref(false);
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(
-      135deg,
-      var(--issuer-color),
-      color-mix(in srgb, var(--issuer-color) 70%, #000)
-    );
+    background: #fff;
     box-shadow:
-      0 4px 12px color-mix(in srgb, var(--issuer-color) 30%, transparent),
-      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      0 2px 8px rgba(0, 0, 0, 0.08),
+      0 0 0 1px rgba(0, 0, 0, 0.06);
     flex-shrink: 0;
 
     &-text {
       font-family: "ProFontWindows", monospace;
       font-weight: 900;
       font-size: var(--font-size-md);
-      color: #fff;
+      color: var(--issuer-color);
       letter-spacing: 0.02em;
       text-transform: uppercase;
+    }
+
+    &-logo {
+      width: 30px;
+      height: 30px;
+      object-fit: contain;
     }
   }
 
