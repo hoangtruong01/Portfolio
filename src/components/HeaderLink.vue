@@ -23,7 +23,7 @@ const props = defineProps<{
   background: none;
   transition: color 0.1s ease-in-out;
   font-size: var(--font-size-md);
-  width: 128px;
+  width: var(--header-link-width, 128px);
   white-space: nowrap;
   text-transform: uppercase;
   z-index: 2;

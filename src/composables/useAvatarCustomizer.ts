@@ -1,16 +1,16 @@
 import { ref } from "vue";
 
-export const shirtColor = ref(localStorage.getItem("avatar-shirt-color") || "#808080");
+export const shirtColor = ref(localStorage.getItem("avatar-shirt-color") || "#34bfff");
 export const pantsColor = ref(localStorage.getItem("avatar-pants-color") || "#2d2a24");
-export const shoesColor = ref(localStorage.getItem("avatar-shoes-color") || "#ffffff");
+export const shoesColor = ref(localStorage.getItem("avatar-shoes-color") || "#34bfff");
 export const hairColor = ref(localStorage.getItem("avatar-hair-color") || "#2d2a24");
 export const skinColor = ref(localStorage.getItem("avatar-skin-color") || "#f1d5c5");
 export const faceExpression = ref<string>(localStorage.getItem("avatar-face-expression") || "auto");
 
 export const resetAvatar = () => {
-  shirtColor.value = "#808080";
+  shirtColor.value = "#34bfff";
   pantsColor.value = "#2d2a24";
-  shoesColor.value = "#ffffff";
+  shoesColor.value = "#34bfff";
   hairColor.value = "#2d2a24";
   skinColor.value = "#f1d5c5";
   faceExpression.value = "auto";

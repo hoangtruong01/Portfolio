@@ -3,7 +3,7 @@ import { ref } from "vue";
 const savedTheme = localStorage.getItem("theme");
 const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-export const isDark = ref(savedTheme === "dark" || (!savedTheme && systemPrefersDark));
+export const isDark = ref(savedTheme === "dark");
 
 export const toggleTheme = () => {
   isDark.value = !isDark.value;

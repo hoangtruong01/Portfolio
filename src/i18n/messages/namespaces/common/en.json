@@ -4,6 +4,7 @@
   "about-tagline": "Builds interactive 3D experiences and real-time systems that are fast, responsive, and fun to use.",
   "back-to-home": "Back to home",
   "original-concept-by": "Originally created by",
+  "certifications": "Certifications",
   "contact": "Contact",
   "description": "Description",
   "disable-sounds": "Disable sounds",
@@ -25,6 +26,8 @@
   "start-a-new-project": "Start a new project",
   "source-code": "Source Code",
   "switch-to-project": "Switch to project {project}",
+  "verified": "Verified",
   "version": "Version",
+  "view-certificate": "View Certificate",
   "view-project": "View project"
 }
