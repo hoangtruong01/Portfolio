@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, computed, onMounted, onUnmounted, watch, nextTick } from "vue";
 import { certificates } from "../../../content/certificates";
 import CertCard from "./CertCard.vue";
 import NotchSection from "../../../components/NotchSection.vue";
@@ -9,59 +9,186 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const sectionRef = ref<HTMLElement | null>(null);
-const cardsRef = ref<HTMLElement | null>(null);
+const cardsContainerRef = ref<HTMLElement | null>(null);
+
+// Pagination logic
+const CARDS_PER_PAGE = 6;
+const currentPage = ref(0);
+const totalPages = computed(() => Math.ceil(certificates.length / CARDS_PER_PAGE));
+const slideDirection = ref<"next" | "prev">("next");
+
+// Visible cards for current page
+const currentCertificates = computed(() => {
+  const start = currentPage.value * CARDS_PER_PAGE;
+  return certificates.slice(start, start + CARDS_PER_PAGE);
+});
+
+// Auto-play state
+let timer: ReturnType<typeof setInterval> | null = null;
+
+const nextPage = () => {
+  slideDirection.value = "next";
+  currentPage.value = (currentPage.value + 1) % totalPages.value;
+};
+
+const prevPage = () => {
+  slideDirection.value = "prev";
+  currentPage.value = (currentPage.value - 1 + totalPages.value) % totalPages.value;
+};
+
+const goToPage = (pageIndex: number) => {
+  if (pageIndex === currentPage.value) return;
+  slideDirection.value = pageIndex > currentPage.value ? "next" : "prev";
+  currentPage.value = pageIndex;
+};
+
+const startAutoPlay = () => {
+  stopAutoPlay();
+  timer = setInterval(() => {
+    nextPage();
+  }, 5000);
+};
+
+const stopAutoPlay = () => {
+  if (timer) {
+    clearInterval(timer);
+    timer = null;
+  }
+};
+
+// Smooth staggered GSAP animation on page change
+const animateCards = async () => {
+  await nextTick();
+  if (!cardsContainerRef.value) return;
+  const cards = cardsContainerRef.value.querySelectorAll(".cert-card-animated");
+
+  const xOffset = slideDirection.value === "next" ? 30 : -30;
+
+  gsap.fromTo(
+    cards,
+    { opacity: 0, x: xOffset, scale: 0.96 },
+    {
+      opacity: 1,
+      x: 0,
+      scale: 1,
+      duration: 0.5,
+      stagger: 0.05,
+      ease: "power3.out",
+    }
+  );
+};
+
+watch(currentPage, () => {
+  animateCards();
+});
+
 let ctx: gsap.Context | null = null;
 
 onMounted(() => {
-  if (!cardsRef.value) return;
+  startAutoPlay();
+
+  if (!sectionRef.value) return;
 
   ctx = gsap.context(() => {
-    const cards = cardsRef.value!.querySelectorAll(".cert-card-animated");
-
-    gsap.set(cards, {
+    gsap.from(sectionRef.value!.querySelectorAll(".certifications-title, .certifications-controls"), {
       opacity: 0,
-      y: 40,
-    });
-
-    ScrollTrigger.batch(cards, {
-      onEnter: (batch) => {
-        gsap.to(batch, {
-          opacity: 1,
-          y: 0,
-          duration: 0.7,
-          ease: "power2.out",
-          stagger: 0.1,
-        });
+      y: 30,
+      duration: 0.7,
+      stagger: 0.15,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: sectionRef.value,
+        start: "top 85%",
+        once: true,
       },
-      start: "top 85%",
-      once: true,
     });
-  }, sectionRef.value!);
+  }, sectionRef.value);
 });
 
 onUnmounted(() => {
+  stopAutoPlay();
   ctx?.revert();
 });
 </script>
 
 <template>
-  <div class="certifications" ref="sectionRef" id="certifications">
+  <div
+    class="certifications"
+    ref="sectionRef"
+    id="certifications"
+  >
     <NotchSection class="certifications-notch-start" />
     <NotchSection class="certifications-notch-end" />
 
-    <div class="grid">
+    <!-- Header Section -->
+    <div class="grid certifications-header">
       <div class="certifications-title">
         <Banner class="certifications-title-banner" :copy="t('verified')" size="sm" animated />
         <h2 class="certifications-title-copy">{{ t("certifications") }}</h2>
       </div>
+
+      <!-- Soft UI Controls -->
+      <div class="certifications-controls">
+        <button
+          class="nav-btn prev-btn"
+          @click="prevPage"
+          aria-label="Previous Page"
+          data-sound="click"
+          data-hoversound="hover"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+
+        <div class="page-indicator-pill">
+          <span class="current">{{ String(currentPage + 1).padStart(2, "0") }}</span>
+          <span class="divider">/</span>
+          <span class="total">{{ String(totalPages).padStart(2, "0") }}</span>
+        </div>
+
+        <button
+          class="nav-btn next-btn"
+          @click="nextPage"
+          aria-label="Next Page"
+          data-sound="click"
+          data-hoversound="hover"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
     </div>
 
+    <!-- Cards Grid Container -->
     <div class="grid">
-      <div class="certifications-cards" ref="cardsRef">
-        <div v-for="(cert, index) in certificates" :key="cert.url" class="cert-card-animated">
-          <CertCard :certificate="cert" :index="index" />
+      <div class="certifications-cards-wrapper">
+        <div class="certifications-cards" ref="cardsContainerRef">
+          <div
+            v-for="(cert, index) in currentCertificates"
+            :key="cert.url"
+            class="cert-card-animated"
+          >
+            <CertCard :certificate="cert" :index="currentPage * CARDS_PER_PAGE + index" />
+          </div>
         </div>
       </div>
+    </div>
+
+    <!-- Soft Capsule Pagination Dots -->
+    <div class="certifications-pagination">
+      <button
+        v-for="(_, pIndex) in totalPages"
+        :key="pIndex"
+        class="pagination-dot"
+        :class="{ active: pIndex === currentPage }"
+        @click="goToPage(pIndex)"
+        :aria-label="`Go to page ${pIndex + 1}`"
+        data-sound="click"
+      >
+        <span class="dot-inner"></span>
+      </button>
     </div>
   </div>
 </template>
@@ -78,31 +205,29 @@ onUnmounted(() => {
   padding-left: var(--space-outer);
   padding-right: var(--space-outer);
   background-color: var(--color-beige-600);
-  min-height: calc(var(--lvh) * 80);
   padding-top: 96px;
   padding-bottom: 96px;
 
   @include mixins.mq("md") {
-    padding-top: 144px;
-    padding-bottom: 144px;
+    padding-top: 128px;
+    padding-bottom: 128px;
     gap: var(--space-xxl);
   }
 
-  @include mixins.mq("lg") {
-    gap: var(--space-xxxl);
+  &-header {
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
   }
 
   &-title {
     position: relative;
     padding-top: var(--space-md);
-    grid-column: 1 / 13;
+    grid-column: 1 / 9;
 
     @include mixins.mq("md") {
-      grid-column: 1 / 10;
-    }
-
-    @include mixins.mq("lg") {
-      grid-column: 3 / 8;
+      grid-column: 1 / 8;
     }
 
     &-copy {
@@ -132,6 +257,22 @@ onUnmounted(() => {
     }
   }
 
+  &-controls {
+    grid-column: 9 / 13;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-xs);
+
+    @include mixins.mq("md") {
+      grid-column: 9 / 11;
+    }
+
+    @include mixins.mq("lg") {
+      grid-column: 9 / 11;
+    }
+  }
+
   &-notch {
     &-start {
       position: absolute;
@@ -151,13 +292,24 @@ onUnmounted(() => {
     }
   }
 
-  &-cards {
-    max-width: 100%;
-    flex: 1;
+  &-cards-wrapper {
     grid-column: 1 / span 12;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    width: 100%;
+
+    @include mixins.mq("lg") {
+      grid-column: 3 / span 8;
+    }
+  }
+
+  &-cards {
+    width: 100%;
     display: grid;
     gap: var(--space-lg);
     grid-template-columns: 1fr;
+    min-height: 460px;
 
     @include mixins.mq("sm") {
       grid-template-columns: repeat(2, 1fr);
@@ -165,12 +317,109 @@ onUnmounted(() => {
 
     @include mixins.mq("lg") {
       grid-template-columns: repeat(3, 1fr);
-      grid-column: 3 / span 8;
     }
+  }
 
-    @include mixins.mq("xl") {
-      grid-template-columns: repeat(3, 1fr);
-    }
+  &-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: var(--space-xs);
+  }
+}
+
+
+
+/* Nav Controls UI */
+.nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--color-beige-700) 80%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-text-300) 18%, transparent);
+  color: var(--color-text-400);
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    transform: translateY(-2px) scale(1.05);
+    background: var(--color-orange-400);
+    color: #fff;
+    border-color: var(--color-orange-400);
+    box-shadow: 0 8px 20px color-mix(in srgb, var(--color-orange-400) 40%, transparent);
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.96);
+  }
+}
+
+.page-indicator-pill {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 14px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--color-beige-700) 65%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-text-300) 15%, transparent);
+  backdrop-filter: blur(10px);
+  font-family: "ProFontWindows", monospace;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+
+  .current {
+    color: var(--color-orange-400);
+  }
+
+  .divider {
+    color: var(--color-text-300);
+    opacity: 0.5;
+  }
+
+  .total {
+    color: var(--color-text-300);
+  }
+}
+
+/* Pagination Capsule Dots */
+.pagination-dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+
+  .dot-inner {
+    width: 10px;
+    height: 10px;
+    border-radius: 99px;
+    background: color-mix(in srgb, var(--color-text-300) 30%, transparent);
+    transition:
+      width 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      background 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  &.active .dot-inner {
+    width: 32px;
+    background: var(--color-orange-400);
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--color-orange-400) 40%, transparent);
+  }
+
+  &:hover:not(.active) .dot-inner {
+    background: color-mix(in srgb, var(--color-text-300) 65%, transparent);
   }
 }
 
@@ -178,3 +427,6 @@ onUnmounted(() => {
   display: flex;
 }
 </style>
+
+
+

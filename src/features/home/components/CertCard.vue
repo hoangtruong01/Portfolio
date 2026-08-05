@@ -68,36 +68,37 @@ const isHovered = ref(false);
   flex-direction: column;
   width: 100%;
   height: 100%;
-  border-radius: var(--radius-lg);
+  border-radius: 20px;
   overflow: hidden;
   cursor: pointer;
   text-decoration: none;
   color: inherit;
   transition:
-    transform 0.35s var(--ease-smooth),
-    box-shadow 0.35s var(--ease-smooth);
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:hover {
-    transform: translateY(-4px);
+    transform: translateY(-6px);
+    box-shadow: 0 16px 36px -10px color-mix(in srgb, var(--issuer-color) 25%, transparent);
   }
 
   &-glow {
     position: absolute;
     inset: 0;
-    border-radius: var(--radius-lg);
+    border-radius: 20px;
     padding: 1px;
     background: linear-gradient(
       135deg,
-      color-mix(in srgb, var(--issuer-color) 40%, transparent),
+      color-mix(in srgb, var(--issuer-color) 45%, transparent),
       transparent 50%,
-      color-mix(in srgb, var(--issuer-color) 20%, transparent)
+      color-mix(in srgb, var(--issuer-color) 25%, transparent)
     );
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     opacity: 0.5;
-    transition: opacity 0.35s var(--ease-smooth);
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     pointer-events: none;
   }
 
@@ -111,29 +112,29 @@ const isHovered = ref(false);
     flex-direction: column;
     gap: var(--space-md);
     padding: var(--space-lg);
-    background: color-mix(in srgb, var(--color-beige-700) 60%, transparent);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: var(--radius-lg);
+    background: color-mix(in srgb, var(--color-beige-700) 65%, transparent);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 20px;
     height: 100%;
-    transition: background 0.35s var(--ease-smooth);
+    transition: background 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   &:hover &-content {
-    background: color-mix(in srgb, var(--color-beige-700) 85%, transparent);
+    background: color-mix(in srgb, var(--color-beige-700) 88%, transparent);
   }
 
   &-badge {
     width: 48px;
     height: 48px;
-    border-radius: var(--radius-md);
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: #fff;
     box-shadow:
-      0 2px 8px rgba(0, 0, 0, 0.08),
-      0 0 0 1px rgba(0, 0, 0, 0.06);
+      0 4px 12px rgba(0, 0, 0, 0.06),
+      0 0 0 1px rgba(0, 0, 0, 0.05);
     flex-shrink: 0;
 
     &-text {
