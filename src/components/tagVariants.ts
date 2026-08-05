@@ -18,6 +18,7 @@ export type TagVariant =
   | "tailwind"
   | "nuxt"
   | "maps"
+  | "flutter"
   | "typescript";
 
 export const tagLabels = {
@@ -40,5 +41,6 @@ export const tagLabels = {
   tailwind: "Tailwind CSS",
   nuxt: "Nuxt.js",
   maps: "Google Maps",
+  flutter: "Flutter",
   typescript: "TypeScript",
 } as const satisfies Record<TagVariant, string>;

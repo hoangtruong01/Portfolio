@@ -2,6 +2,7 @@ import type { ProjectPreview } from "../../types";
 import edumeeThumbnail from "../../../assets/thumbnails/edumee.png";
 import horsetrackThumbnail from "../../../assets/thumbnails/horsetrack.png";
 import ihouzzThumbnail from "../../../assets/thumbnails/ihouzz.png";
+import bookstoreThumbnail from "../../../assets/thumbnails/bookstore.png";
 
 export default [
   {
@@ -21,5 +22,11 @@ export default [
     slug: "ihouzz",
     thumbnail: ihouzzThumbnail,
     description: "A comprehensive real estate marketplace and PropTech platform.",
+  },
+  {
+    title: "Trường Thành Stationery",
+    slug: "bookstore",
+    thumbnail: bookstoreThumbnail,
+    description: "A fully featured retail e-commerce bookstore and stationery platform.",
   },
 ] as const satisfies ProjectPreview[];
