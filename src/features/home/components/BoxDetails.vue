@@ -7,7 +7,6 @@ import { BREAKPOINTS } from "../../../utils/sizes";
 import { Vector3 } from "three";
 import PinIcon from "../../../components/icons/Pin.vue";
 import ProjectedElement from "../../../components/ProjectedElement.vue";
-import Banner from "../../../components/Banner.vue";
 
 const point = new Vector3(-0.76, 3.6, 6.75);
 
@@ -103,9 +102,6 @@ const handleTimelineCreated = (timeline: gsap.core.Timeline, delay: number) => {
   <ProjectedElement :point="point">
     <div ref="wrapperRef" class="box-details">
       <div class="box-details-content">
-        <div class="box-details-badge">
-          <Banner :copy="t('about')" size="sm" animated />
-        </div>
         <div class="box-details-title">
           <AppearingText
             text="Trương Hoàng"
