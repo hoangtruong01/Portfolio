@@ -5,6 +5,8 @@ import BoxDescription from "./BoxDescription.vue";
 import BoxServices from "./BoxServices.vue";
 import BoxDetails from "./BoxDetails.vue";
 import ProgressCount from "./ProgressCount.vue";
+import Banner from "../../../components/Banner.vue";
+import { t } from "../../../i18n/utils/translate";
 
 const contentDescriptionRef = ref<HTMLDivElement | null>(null);
 const contentServicesRef = ref<HTMLDivElement | null>(null);
@@ -49,6 +51,9 @@ watchEffect((onInvalidate) => {
 
 <template>
   <div class="about-content">
+    <div class="about-header">
+      <Banner class="about-title-banner" :copy="t('about')" size="sm" animated />
+    </div>
     <div ref="contentDetailsRef" class="about-details">
       <BoxDetails @timeline:created="(tl: gsap.core.Timeline) => (tlDetailsRef = tl)" />
     </div>
@@ -66,6 +71,18 @@ watchEffect((onInvalidate) => {
 
 <style scoped lang="scss">
 .about {
+  &-header {
+    position: absolute;
+    top: var(--space-outer);
+    left: var(--space-outer);
+    z-index: 10;
+
+    @include mixins.mq("md") {
+      top: calc(var(--space-outer) + 16px);
+      left: calc(var(--space-outer) + 16px);
+    }
+  }
+
   &-content {
     position: absolute;
     color: var(--color-text-cyan-400);
