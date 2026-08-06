@@ -120,43 +120,45 @@ onUnmounted(() => {
     <NotchSection class="certifications-notch-end" />
 
     <!-- Header Section -->
-    <div class="grid certifications-header">
-      <div class="certifications-title">
-        <Banner class="certifications-title-banner" :copy="t('verified')" size="sm" animated />
-        <h2 class="certifications-title-copy">{{ t("certifications") }}</h2>
-      </div>
-
-      <!-- Soft UI Controls -->
-      <div class="certifications-controls">
-        <button
-          class="nav-btn prev-btn"
-          @click="prevPage"
-          aria-label="Previous Page"
-          data-sound="click"
-          data-hoversound="hover"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="15 18 9 12 15 6"></polyline>
-          </svg>
-        </button>
-
-        <div class="page-indicator-pill">
-          <span class="current">{{ String(currentPage + 1).padStart(2, "0") }}</span>
-          <span class="divider">/</span>
-          <span class="total">{{ String(totalPages).padStart(2, "0") }}</span>
+    <div class="grid">
+      <div class="certifications-header">
+        <div class="certifications-title">
+          <Banner class="certifications-title-banner" :copy="t('verified')" size="sm" animated />
+          <h2 class="certifications-title-copy">{{ t("certifications") }}</h2>
         </div>
 
-        <button
-          class="nav-btn next-btn"
-          @click="nextPage"
-          aria-label="Next Page"
-          data-sound="click"
-          data-hoversound="hover"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-        </button>
+        <!-- Soft UI Controls -->
+        <div class="certifications-controls">
+          <button
+            class="nav-btn prev-btn"
+            @click="prevPage"
+            aria-label="Previous Page"
+            data-sound="click"
+            data-hoversound="hover"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+
+          <div class="page-indicator-pill">
+            <span class="current">{{ String(currentPage + 1).padStart(2, "0") }}</span>
+            <span class="divider">/</span>
+            <span class="total">{{ String(totalPages).padStart(2, "0") }}</span>
+          </div>
+
+          <button
+            class="nav-btn next-btn"
+            @click="nextPage"
+            aria-label="Next Page"
+            data-sound="click"
+            data-hoversound="hover"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -204,30 +206,32 @@ onUnmounted(() => {
   padding-left: var(--space-outer);
   padding-right: var(--space-outer);
   background-color: var(--color-beige-600);
-  padding-top: 96px;
+  padding-top: 112px;
   padding-bottom: 96px;
 
   @include mixins.mq("md") {
-    padding-top: 128px;
-    padding-bottom: 128px;
+    padding-top: 160px;
+    padding-bottom: 144px;
     gap: var(--space-xxl);
   }
 
   &-header {
+    grid-column: 1 / span 12;
     width: 100%;
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+
+    @include mixins.mq("lg") {
+      grid-column: 3 / span 8;
+    }
   }
 
   &-title {
     position: relative;
-    padding-top: var(--space-md);
-    grid-column: 1 / 9;
-
-    @include mixins.mq("md") {
-      grid-column: 1 / 8;
-    }
+    padding-top: var(--space-lg);
 
     &-copy {
       font-weight: 900;
@@ -247,29 +251,20 @@ onUnmounted(() => {
       position: absolute;
       top: 0;
       left: -8px;
-      transform: translate(0, -20%) rotate(-4deg);
+      transform: translate(0, -10%) rotate(-4deg);
 
       @include mixins.mq("lg") {
         left: -16px;
-        transform: translate(0, -20%) rotate(-6deg);
+        transform: translate(0, -10%) rotate(-6deg);
       }
     }
   }
 
   &-controls {
-    grid-column: 9 / 13;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     gap: var(--space-xs);
-
-    @include mixins.mq("md") {
-      grid-column: 9 / 11;
-    }
-
-    @include mixins.mq("lg") {
-      grid-column: 9 / 11;
-    }
   }
 
   &-notch {
