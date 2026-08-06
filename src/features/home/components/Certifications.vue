@@ -6,7 +6,6 @@ import NotchSection from "../../../components/NotchSection.vue";
 import Banner from "../../../components/Banner.vue";
 import { t } from "../../../i18n/utils/translate";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const sectionRef = ref<HTMLElement | null>(null);
 const cardsContainerRef = ref<HTMLElement | null>(null);
