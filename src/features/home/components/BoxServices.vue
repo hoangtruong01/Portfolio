@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watchEffect, onBeforeUnmount } from "vue";
 import gsap from "gsap";
-import { locale } from "../../../i18n/store";
 import { t } from "../../../i18n/utils/translate";
 import AppearingText from "../../../components/AppearingText.vue";
 import { BREAKPOINTS } from "../../../utils/sizes";
@@ -106,25 +105,19 @@ const handleTimelineCreated = (timeline: gsap.core.Timeline, delay: number) => {
   timelines.value = updatedTimelines;
 };
 
-const SERVICES_EN = [
-  { name: "Three.js & WebGL" },
-  { name: "Node.js & WebSockets" },
-  { name: "React & Vue" },
-  { name: "Kubernetes & Redis" },
-  { name: "Real-time Multiplayer" },
+const SKILLS = [
+  { name: "JavaScript / TypeScript" },
+  { name: "Vue.js / Nuxt.js" },
+  { name: "Next.js / NestJS" },
+  { name: "React Native / Flutter" },
+  { name: "REST API" },
+  { name: "SQL / MongoDB" },
+  { name: "Docker / Jenkins" },
+  { name: "Git & GitHub" },
+  { name: "n8n Automation" },
 ] as const satisfies { name: string }[];
 
-const SERVICES_DE = [
-  { name: "Three.js & WebGL" },
-  { name: "Node.js & WebSockets" },
-  { name: "React & Vue" },
-  { name: "Kubernetes & Redis" },
-  { name: "Echtzeit-Mehrspieler" },
-] as const satisfies { name: string }[];
-
-const services = computed(() => {
-  return locale.value === "en" ? SERVICES_EN : SERVICES_DE;
-});
+const services = computed(() => SKILLS);
 </script>
 
 <template>
@@ -139,6 +132,14 @@ const services = computed(() => {
             @timeline:created="(tl: gsap.core.Timeline) => handleTimelineCreated(tl, 0)"
           />
         </div>
+        <div class="box-services-subtitle">
+          <AppearingText
+            :text="t('professional')"
+            :steps="1"
+            :duration="0.35"
+            @timeline:created="(tl: gsap.core.Timeline) => handleTimelineCreated(tl, 0.05)"
+          />
+        </div>
         <div class="box-services-list">
           <div class="box-services-list-item" v-for="(service, index) in services" :key="service.name">
             <p class="box-services-list-item-name">
@@ -146,7 +147,7 @@ const services = computed(() => {
                 :text="service.name"
                 :steps="1"
                 :duration="0.35"
-                @timeline:created="(tl: gsap.core.Timeline) => handleTimelineCreated(tl, 0.15 + index * 0.1)"
+                @timeline:created="(tl: gsap.core.Timeline) => handleTimelineCreated(tl, 0.1 + index * 0.05)"
               />
             </p>
           </div>
@@ -280,6 +281,20 @@ const services = computed(() => {
 
     @include mixins.landscape-large {
       font-size: var(--font-size-title-xs);
+    }
+  }
+
+  &-subtitle {
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    opacity: 0.85;
+
+    @include mixins.landscape {
+      font-size: var(--font-size-xs);
+    }
+
+    @include mixins.landscape-large {
+      font-size: var(--font-size-sm);
     }
   }
 }
