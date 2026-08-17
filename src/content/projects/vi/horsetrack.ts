@@ -1,6 +1,7 @@
 import type { ProjectContent } from "../../types";
 import horsetrackHero from "../../../assets/images/projects/horsetrack/hero.png";
 import horsetrackTrophy from "../../../assets/images/projects/horsetrack/trophy.png";
+import horsetrackGlobe from "../../../assets/images/projects/horsetrack/globe.png";
 
 export default {
   title: "HorseTrack",
@@ -45,6 +46,15 @@ export default {
             ],
           },
         },
+      },
+    },
+    {
+      type: "media",
+      props: {
+        type: "image",
+        src: horsetrackGlobe,
+        alt: "Mạng lưới giải đấu toàn cầu HorseTrack",
+        caption: "Mạng lưới giải đấu quốc tế - Kết nối các giải đua hàng đầu trên toàn cầu.",
       },
     },
     {

@@ -1,6 +1,7 @@
 import type { ProjectContent } from "../../types";
 import horsetrackHero from "../../../assets/images/projects/horsetrack/hero.png";
 import horsetrackTrophy from "../../../assets/images/projects/horsetrack/trophy.png";
+import horsetrackGlobe from "../../../assets/images/projects/horsetrack/globe.png";
 
 export default {
   title: "HorseTrack",
@@ -45,6 +46,15 @@ export default {
             ],
           },
         },
+      },
+    },
+    {
+      type: "media",
+      props: {
+        type: "image",
+        src: horsetrackGlobe,
+        alt: "HorseTrack Global Tournament Network",
+        caption: "Global Tournament Network - Connecting top racing events worldwide.",
       },
     },
     {
