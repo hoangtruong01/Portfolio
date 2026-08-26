@@ -2,10 +2,12 @@ import type { ProjectContent } from "../../types";
 import edumeeHero from "../../../assets/images/projects/edumee/edumee-hero.png";
 import edumeeFeatures from "../../../assets/images/projects/edumee/edumee_1.png";
 import edumeeStudents from "../../../assets/images/projects/edumee/edumee-students.png";
+import edumeeLogo from "../../../assets/images/logos/edumee-logo.png";
 
 export default {
   title: "Edumee.me",
   theme: "light",
+  logo: edumeeLogo,
   tags: ["ai", "vue", "tailwind", "typescript"],
   description:
     "An AI-powered career orientation platform designed to help students discover their personality, strengths, and ideal career paths through advanced AI assessments and personalized learning roadmaps.",

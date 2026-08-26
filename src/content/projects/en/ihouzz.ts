@@ -3,10 +3,12 @@ import ihouzz1 from "../../../assets/images/projects/ihouzz/ihouzz-1.png";
 import ihouzz2 from "../../../assets/images/projects/ihouzz/ihouzz-2.png";
 import ihouzz3 from "../../../assets/images/projects/ihouzz/ihouzz-3.png";
 import ihouzz4 from "../../../assets/images/projects/ihouzz/ihouzz-4.png";
+import ihouzzLogo from "../../../assets/images/logos/ihouzz-logo.png";
 
 export default {
   title: "iHouzz.com",
   theme: "light",
+  logo: ihouzzLogo,
   tags: ["vue", "typescript", "nuxt", "tailwind", "maps"],
   description:
     "A premium PropTech platform in Vietnam, offering a comprehensive real estate marketplace. As a Front-end Developer, I built and optimized the user interface, interactive map searches, and listing workflows to deliver a seamless property browsing experience.",

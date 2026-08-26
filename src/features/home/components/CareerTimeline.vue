@@ -132,9 +132,14 @@ onUnmounted(() => {
           >
             <div class="timeline-card-inner">
               <div class="timeline-title-wrap">
-                <h3 class="timeline-title">
-                  {{ locale === 'vi' ? item.title.vi : item.title.en }}
-                </h3>
+                <div class="timeline-title-row">
+                  <div v-if="item.logo" class="timeline-item-logo-box">
+                    <img :src="item.logo" :alt="locale === 'vi' ? item.title.vi : item.title.en" class="timeline-item-logo" />
+                  </div>
+                  <h3 class="timeline-title">
+                    {{ locale === 'vi' ? item.title.vi : item.title.en }}
+                  </h3>
+                </div>
                 <!-- Underline doodle -->
                 <svg
                   v-if="item.underlineStyle === 'wavy'"
@@ -228,21 +233,26 @@ onUnmounted(() => {
           >
             <div class="timeline-card-inner">
               <div class="timeline-title-wrap">
-                <h3 class="timeline-title">
-                  {{ locale === 'vi' ? item.title.vi : item.title.en }}
-                </h3>
+                <div class="timeline-title-row">
+                  <div v-if="item.logo" class="timeline-item-logo-box">
+                    <img :src="item.logo" :alt="locale === 'vi' ? item.title.vi : item.title.en" class="timeline-item-logo" />
+                  </div>
+                  <h3 class="timeline-title">
+                    {{ locale === 'vi' ? item.title.vi : item.title.en }}
+                  </h3>
 
-                <!-- Star Doodle for Final-year IT -->
-                <div v-if="item.hasStar" class="doodle-star">
-                  <svg viewBox="0 0 24 24" fill="none" class="star-svg">
-                    <path
-                      d="M12 2.5L14.7 8.5L21.2 9.2L16.3 13.7L17.7 20.2L12 16.9L6.3 20.2L7.7 13.7L2.8 9.2L9.3 8.5L12 2.5Z"
-                      stroke="var(--color-text-400)"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
+                  <!-- Star Doodle for Final-year IT -->
+                  <div v-if="item.hasStar" class="doodle-star">
+                    <svg viewBox="0 0 24 24" fill="none" class="star-svg">
+                      <path
+                        d="M12 2.5L14.7 8.5L21.2 9.2L16.3 13.7L17.7 20.2L12 16.9L6.3 20.2L7.7 13.7L2.8 9.2L9.3 8.5L12 2.5Z"
+                        stroke="var(--color-text-400)"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
                 </div>
 
                 <!-- Underline doodle -->
@@ -323,6 +333,9 @@ onUnmounted(() => {
         <!-- ============================================== -->
         <div class="timeline-mob-content mobile-only">
           <div class="mob-header">
+            <div v-if="item.logo" class="mob-item-logo-box">
+              <img :src="item.logo" :alt="locale === 'vi' ? item.title.vi : item.title.en" class="mob-item-logo" />
+            </div>
             <span class="mob-year">{{ item.year }}</span>
             <span class="mob-title">{{ locale === 'vi' ? item.title.vi : item.title.en }}</span>
             <span v-if="item.hasStar" class="mob-star">⭐</span>
@@ -645,6 +658,10 @@ onUnmounted(() => {
     align-items: flex-end;
   }
 
+  .timeline-title-row {
+    justify-content: flex-end;
+  }
+
   .doodle-underline {
     margin-left: auto;
   }
@@ -659,6 +676,59 @@ onUnmounted(() => {
   flex-direction: column;
   position: relative;
   align-items: flex-start;
+}
+
+.timeline-title-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.timeline-item-logo-box {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border: 1px solid color-mix(in srgb, var(--color-text-400) 18%, transparent);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+
+  @include mixins.mq("md") {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+  }
+}
+
+.timeline-item-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mob-item-logo-box {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border: 0.8px solid color-mix(in srgb, var(--color-text-400) 20%, transparent);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  margin-right: 2px;
+}
+
+.mob-item-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .timeline-title {

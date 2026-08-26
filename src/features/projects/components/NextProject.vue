@@ -14,7 +14,12 @@ const { project } = defineProps<{
     <img :src="project.thumbnail" :alt="project.title" class="next-project-image" />
     <div class="next-project-content">
       <p class="next-project-prefix">{{ t("next-project") }}:</p>
-      <h3 class="next-project-title">{{ project.title }}</h3>
+      <div class="next-project-title-row">
+        <div v-if="project.logo" class="next-project-logo-container">
+          <img :src="project.logo" :alt="project.title" class="next-project-logo" />
+        </div>
+        <h3 class="next-project-title">{{ project.title }}</h3>
+      </div>
     </div>
     <ArrowRight class="next-project-arrow" />
   </div>
@@ -66,6 +71,38 @@ const { project } = defineProps<{
     @include mixins.mq("md") {
       padding-left: var(--space-md);
     }
+  }
+
+  &-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &-logo-container {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border: 1px solid color-mix(in srgb, var(--color-text-400) 18%, transparent);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+
+    @include mixins.mq("md") {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+    }
+  }
+
+  &-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   &-title {

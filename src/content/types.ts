@@ -9,6 +9,7 @@ export interface ProjectContent {
   title: string;
   theme: "light" | "dark";
   tags: TagVariant[];
+  logo?: string;
   description?: string;
   videoBorder?: boolean;
   live?: string;
@@ -25,5 +26,7 @@ export interface ProjectPreview {
   title: string;
   slug: string;
   thumbnail: string;
+  logo?: string;
   description: string;
 }
+

@@ -1,3 +1,6 @@
+import edumeeLogo from "../assets/images/logos/edumee-logo.png";
+import ihouzzLogo from "../assets/images/logos/ihouzz-logo.png";
+
 export interface TimelineMilestone {
   id: string;
   year: string;
@@ -6,6 +9,7 @@ export interface TimelineMilestone {
     en: string;
     vi: string;
   };
+  logo?: string;
   role?: {
     en: string;
     vi: string;
@@ -46,6 +50,7 @@ export const milestones: TimelineMilestone[] = [
       en: "Edumee.me",
       vi: "Edumee.me",
     },
+    logo: edumeeLogo,
     role: {
       en: "Founder & Full-stack Developer",
       vi: "Founder & Full-stack Developer",
@@ -64,6 +69,7 @@ export const milestones: TimelineMilestone[] = [
       en: "IHouzz.com",
       vi: "IHouzz.com",
     },
+    logo: ihouzzLogo,
     role: {
       en: "Frontend Developer",
       vi: "Frontend Developer",

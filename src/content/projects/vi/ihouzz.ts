@@ -3,10 +3,12 @@ import ihouzz1 from "../../../assets/images/projects/ihouzz/ihouzz-1.png";
 import ihouzz2 from "../../../assets/images/projects/ihouzz/ihouzz-2.png";
 import ihouzz3 from "../../../assets/images/projects/ihouzz/ihouzz-3.png";
 import ihouzz4 from "../../../assets/images/projects/ihouzz/ihouzz-4.png";
+import ihouzzLogo from "../../../assets/images/logos/ihouzz-logo.png";
 
 export default {
   title: "iHouzz.com",
   theme: "light",
+  logo: ihouzzLogo,
   tags: ["vue", "typescript", "nuxt", "tailwind", "maps"],
   description:
     "Một nền tảng PropTech hàng đầu tại Việt Nam, cung cấp thị trường bất động sản toàn diện. Với tư cách là Lập trình viên Front-end, tôi đã xây dựng và tối ưu hóa giao diện người dùng, tìm kiếm bản đồ tương tác và quy trình đăng tin để mang lại trải nghiệm duyệt bất động sản liền mạch.",

@@ -2,10 +2,12 @@ import type { ProjectContent } from "../../types";
 import horsetrackHero from "../../../assets/images/projects/horsetrack/hero.png";
 import horsetrackTrophy from "../../../assets/images/projects/horsetrack/trophy.png";
 import horsetrackGlobe from "../../../assets/images/projects/horsetrack/globe.png";
+import horseTrackLogo from "../../../assets/images/logos/horsetrack-logo.png";
 
 export default {
   title: "HorseTrack",
   theme: "dark",
+  logo: horseTrackLogo,
   tags: ["next", "react", "websockets", "node", "tailwind", "typescript"],
   description:
     "Một hệ thống quản lý giải đua ngựa và bảng điều khiển phân tích thời gian thực với độ trung thực cao, thẩm mỹ khoang lái F1, quy trình làm việc dựa trên vai trò và cập nhật trực tiếp qua WebSockets.",

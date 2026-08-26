@@ -2,10 +2,12 @@ import type { ProjectContent } from "../../types";
 import edumeeHero from "../../../assets/images/projects/edumee/edumee-hero.png";
 import edumeeFeatures from "../../../assets/images/projects/edumee/edumee_1.png";
 import edumeeStudents from "../../../assets/images/projects/edumee/edumee-students.png";
+import edumeeLogo from "../../../assets/images/logos/edumee-logo.png";
 
 export default {
   title: "Edumee.me",
   theme: "light",
+  logo: edumeeLogo,
   tags: ["ai", "vue", "tailwind", "typescript"],
   description:
     "Một nền tảng hướng nghiệp được hỗ trợ bởi AI, được thiết kế để giúp học sinh, sinh viên khám phá tính cách, điểm mạnh và lộ trình nghề nghiệp lý tưởng thông qua các đánh giá AI nâng cao và lộ trình học tập được cá nhân hóa.",

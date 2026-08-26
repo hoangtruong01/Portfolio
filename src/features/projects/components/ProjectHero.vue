@@ -24,9 +24,14 @@ watch(projectId, () => {
   <div class="project-hero grid">
     <div class="project-hero-top">
       <div class="project-hero-title-wrapper">
-        <h1 class="project-hero-title" :key="animationKey">
-          {{ content.title }}
-        </h1>
+        <div class="project-hero-title-row">
+          <div v-if="content.logo" class="project-hero-logo-container">
+            <img :src="content.logo" :alt="content.title" class="project-hero-logo" />
+          </div>
+          <h1 class="project-hero-title" :key="animationKey">
+            {{ content.title }}
+          </h1>
+        </div>
       </div>
       <div class="project-hero-tags">
         <Tag v-for="tag in content.tags" :key="tag" :variant="tag" />
@@ -113,6 +118,54 @@ watch(projectId, () => {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-sm);
+  }
+
+  &-title-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+
+    @include mixins.mq("md") {
+      gap: var(--space-sm);
+    }
+  }
+
+  &-logo-container {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border: 1.5px solid color-mix(in srgb, var(--color-text-400) 18%, transparent);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+    animation: project-hero-logo-visible 0.5s var(--ease-smooth);
+
+    @include mixins.mq("md") {
+      width: 50px;
+      height: 50px;
+      border-radius: 13px;
+    }
+  }
+
+  @keyframes project-hero-logo-visible {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  &-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   &-title {

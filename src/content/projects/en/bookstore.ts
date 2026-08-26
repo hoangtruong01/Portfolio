@@ -3,10 +3,12 @@ import bookstore1 from "../../../assets/images/projects/bookstore/bookstore-1.pn
 import bookstore2 from "../../../assets/images/projects/bookstore/bookstore-2.png";
 import bookstore3 from "../../../assets/images/projects/bookstore/bookstore-3.png";
 import bookstore4 from "../../../assets/images/projects/bookstore/bookstore-4.png";
+import truongThanhLogo from "../../../assets/images/logos/truong-thanh-logo.png";
 
 export default {
   title: "Trường Thành Stationery",
   theme: "light",
+  logo: truongThanhLogo,
   tags: ["vue", "flutter", "typescript", "tailwind", "javascript"],
   description:
     "Trường Thành Bookstore & Stationery is a modern retail web application and mobile ecosystem in Vietnam. Built with Vue 3 for the web portal and Flutter for the mobile app, it offers a comprehensive catalogue of stationery, textbooks, and office supplies with stateful carts, order scanning, and instant searching.",

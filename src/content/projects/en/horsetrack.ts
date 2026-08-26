@@ -2,10 +2,12 @@ import type { ProjectContent } from "../../types";
 import horsetrackHero from "../../../assets/images/projects/horsetrack/hero.png";
 import horsetrackTrophy from "../../../assets/images/projects/horsetrack/trophy.png";
 import horsetrackGlobe from "../../../assets/images/projects/horsetrack/globe.png";
+import horseTrackLogo from "../../../assets/images/logos/horsetrack-logo.png";
 
 export default {
   title: "HorseTrack",
   theme: "dark",
+  logo: horseTrackLogo,
   tags: ["next", "react", "websockets", "node", "tailwind", "typescript"],
   description:
     "A high-fidelity horse racing tournament management and real-time analytics dashboard with an F1 cockpit aesthetic, role-based workflows, and live WebSockets updates.",

@@ -73,7 +73,12 @@ onUnmounted(() => {
     </div>
     <div class="preview-card-content">
       <div class="preview-card-copys">
-        <h3 class="preview-card-title">{{ props.preview.title }}</h3>
+        <div class="preview-card-title-row">
+          <div v-if="props.preview.logo" class="preview-card-logo-container">
+            <img :src="props.preview.logo" :alt="props.preview.title" class="preview-card-logo" />
+          </div>
+          <h3 class="preview-card-title">{{ props.preview.title }}</h3>
+        </div>
         <p class="preview-card-description">{{ props.preview.description }}</p>
       </div>
     </div>
@@ -126,6 +131,11 @@ onUnmounted(() => {
 
       &::after {
         opacity: 1;
+      }
+
+      .preview-card-logo-container {
+        transform: scale(1.12) rotate(-3deg);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.16);
       }
     }
   }
@@ -224,6 +234,34 @@ onUnmounted(() => {
   &-copys {
     display: flex;
     flex-direction: column;
+  }
+
+  &-title-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 3px;
+  }
+
+  &-logo-container {
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border: 1px solid color-mix(in srgb, var(--color-text-400) 18%, transparent);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+  }
+
+  &-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   &-title {
