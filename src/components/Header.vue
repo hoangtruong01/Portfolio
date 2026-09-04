@@ -6,7 +6,6 @@ import { t } from "../i18n/utils/translate";
 import { useHeaderTheme } from "../composables/useHeaderTheme";
 import { lenis } from "../composables/useScroll";
 import { projectId } from "../composables/useRouteObserver";
-import { social } from "../content/social";
 import ButtonRound from "./ButtonRound.vue";
 import ArrowRight from "./icons/ArrowRight.vue";
 import SoundsToggle from "./SoundsToggle.vue";
@@ -58,10 +57,13 @@ const classNames = computed(() => {
   };
 });
 
-const getInTouchClassNames = computed(() => {
+const resumeUrl = "/resume.pdf";
+
+const resumeClassNames = computed(() => {
   return {
-    "header-get-in-touch": true,
-    "header-get-in-touch-isProjectPage": projectId.value !== null,
+    "header-resume": true,
+    "header-resume-dark": isDarkTheme.value,
+    "header-resume-isProjectPage": projectId.value !== null,
   };
 });
 </script>
@@ -99,15 +101,32 @@ const getInTouchClassNames = computed(() => {
     <div class="header-right">
       <Button
         renderAs="a"
-        variant="accent"
-        :aria-label="t('get-in-touch')"
-        :href="social.find((item) => item.name === 'mail')?.url ?? ''"
-        external
-        :class="getInTouchClassNames"
+        variant="border"
+        :href="resumeUrl"
+        target="_blank"
+        rel="noopener noreferrer"
+        :aria-label="t('resume')"
+        :class="resumeClassNames"
         data-cursor="circle-white"
+        data-sound="click"
         data-hoversound="hover"
-        >{{ t("get-in-touch") }}</Button
       >
+        <span>{{ t("resume") }}</span>
+        <svg
+          class="header-resume-icon"
+          width="13"
+          height="13"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="7" y1="17" x2="17" y2="7"></line>
+          <polyline points="7 7 17 7 17 17"></polyline>
+        </svg>
+      </Button>
       <ThemeToggle :isDarkTheme="isDarkTheme" />
       <SoundsToggle class="header-sounds-toggle" :isDarkTheme="isDarkTheme" v-if="isFeatureEnabled('sounds')" />
     </div>
@@ -161,11 +180,78 @@ const getInTouchClassNames = computed(() => {
     transform: translateY(-50%);
   }
 
-  &-get-in-touch {
+  &-resume {
+    display: none;
+    align-items: center;
+    gap: 6px;
     width: fit-content;
+    border: 1.5px solid var(--color-text-400);
+    color: var(--color-text-400);
+    background-color: transparent;
+    padding: 0 16px;
+    height: 38px;
+    font-size: var(--font-size-sm);
+    letter-spacing: 0.02em;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 100px;
+    transition:
+      background-color 0.15s ease-in-out,
+      color 0.15s ease-in-out,
+      border-color 0.15s ease-in-out,
+      transform 0.15s ease-in-out;
+
+    @include mixins.mq("md") {
+      display: flex;
+    }
+
+    @include mixins.mq("xl") {
+      padding: 0 20px;
+      height: 44px;
+      font-size: var(--font-size-md);
+    }
 
     &-isProjectPage {
       opacity: 1 !important;
+    }
+
+    &-icon {
+      width: 12px;
+      height: 12px;
+      stroke: currentColor;
+      transition: transform 0.2s var(--ease-smooth);
+      flex-shrink: 0;
+
+      @include mixins.mq("xl") {
+        width: 13px;
+        height: 13px;
+      }
+    }
+
+    @include mixins.hover {
+      &:hover {
+        background-color: var(--color-black-400);
+        color: var(--color-white-400);
+        border-color: var(--color-black-400);
+
+        .header-resume-icon {
+          transform: translate(2px, -2px);
+        }
+      }
+    }
+
+    &-dark {
+      border-color: rgba(255, 255, 255, 0.45);
+      color: var(--color-white-400);
+
+      @include mixins.hover {
+        &:hover {
+          background-color: var(--color-cyan-500);
+          border-color: var(--color-cyan-500);
+          color: var(--color-white-400);
+        }
+      }
     }
   }
 
@@ -177,7 +263,11 @@ const getInTouchClassNames = computed(() => {
     pointer-events: auto;
     display: flex;
     align-items: center;
-    gap: var(--space-sm);
+    gap: var(--space-xs);
+
+    @include mixins.mq("xl") {
+      gap: var(--space-sm);
+    }
   }
 
   &-music-toggle {
@@ -187,14 +277,6 @@ const getInTouchClassNames = computed(() => {
   &-dark {
     color: var(--color-white-400);
     --icon-color: var(--color-white-400);
-  }
-
-  &-get-in-touch {
-    display: none;
-
-    @include mixins.mq("md") {
-      display: flex;
-    }
   }
 
   &-logo {

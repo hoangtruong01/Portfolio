@@ -69,7 +69,8 @@ watchEffect((onInvalidate) => {
 
 <style scoped lang="scss">
 .banner {
-  width: fit-content;
+  width: max-content;
+  white-space: nowrap;
   transform-origin: center center;
   position: relative;
 
@@ -107,6 +108,7 @@ watchEffect((onInvalidate) => {
     color: var(--color-white-400);
     font-family: "ProFontWindows";
     text-transform: uppercase;
+    white-space: nowrap;
 
     &-size {
       &-sm {

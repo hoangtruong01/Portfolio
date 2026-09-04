@@ -138,13 +138,18 @@ onBeforeUnmount(() => {
 <style scoped>
 .appearing-text {
   position: relative;
+  white-space: inherit;
 }
 
 .appearing-text-value {
   position: absolute;
+  top: 0;
+  left: 0;
+  white-space: inherit;
 }
 
 .appearing-text-clone {
   visibility: hidden;
+  white-space: inherit;
 }
 </style>
