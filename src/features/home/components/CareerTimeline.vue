@@ -536,7 +536,7 @@ onUnmounted(() => {
 }
 
 .timeline-year-text {
-  font-family: "Urbanist", sans-serif;
+  font-family: var(--font-sans);
   font-size: 16px;
   font-weight: 900;
   color: var(--timeline-accent);
@@ -752,7 +752,7 @@ onUnmounted(() => {
   flex-wrap: wrap;
   gap: 4px;
   font-size: 9px;
-  font-family: "ProFontWindows", monospace;
+  font-family: var(--font-tech);
   font-weight: 700;
 
   @include mixins.mq("md") {
@@ -808,7 +808,7 @@ onUnmounted(() => {
 }
 
 .mob-year {
-  font-family: "Urbanist", sans-serif;
+  font-family: var(--font-sans);
   font-weight: 900;
   font-size: 13px;
   color: var(--timeline-accent);
@@ -834,7 +834,7 @@ onUnmounted(() => {
   flex-wrap: nowrap;
   gap: 3px;
   font-size: 8px;
-  font-family: "ProFontWindows", monospace;
+  font-family: var(--font-tech);
   font-weight: 700;
   overflow: hidden;
 }

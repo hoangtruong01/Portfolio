@@ -106,7 +106,7 @@ watchEffect((onInvalidate) => {
   &-copy {
     font-weight: 700;
     color: var(--color-white-400);
-    font-family: "ProFontWindows";
+    font-family: var(--font-tech);
     text-transform: uppercase;
     white-space: nowrap;
 

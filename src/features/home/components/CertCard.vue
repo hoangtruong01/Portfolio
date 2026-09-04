@@ -138,7 +138,7 @@ const isHovered = ref(false);
     flex-shrink: 0;
 
     &-text {
-      font-family: "ProFontWindows", monospace;
+      font-family: var(--font-tech);
       font-weight: 900;
       font-size: var(--font-size-md);
       color: var(--issuer-color);
@@ -189,7 +189,7 @@ const isHovered = ref(false);
   &-date {
     font-size: var(--font-size-xs);
     color: var(--color-text-300);
-    font-family: "ProFontWindows", monospace;
+    font-family: var(--font-tech);
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }

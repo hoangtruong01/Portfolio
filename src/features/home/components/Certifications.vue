@@ -368,7 +368,7 @@ onUnmounted(() => {
   background: color-mix(in srgb, var(--color-beige-700) 65%, transparent);
   border: 1px solid color-mix(in srgb, var(--color-text-300) 15%, transparent);
   backdrop-filter: blur(10px);
-  font-family: "ProFontWindows", monospace;
+  font-family: var(--font-tech);
   font-size: var(--font-size-xs);
   font-weight: 700;
 

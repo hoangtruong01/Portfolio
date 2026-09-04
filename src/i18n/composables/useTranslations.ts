@@ -20,10 +20,15 @@ export const useTranslations = () => {
     }
   });
 
-  watch(locale, () => {
-    if (!locale.value) return;
-    window.localStorage.setItem("portfolio-locale", locale.value);
-  });
+  watch(
+    locale,
+    (newLocale) => {
+      if (!newLocale) return;
+      window.localStorage.setItem("portfolio-locale", newLocale);
+      document.documentElement.lang = newLocale;
+    },
+    { immediate: true },
+  );
 
   watch(
     locale,

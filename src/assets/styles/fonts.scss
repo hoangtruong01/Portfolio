@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: "ProFontWindows";
-  src: url("./fonts/pro-font-windows-400.woff2") format("woff2");
+  src: url("/fonts/pro-font-windows-400.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -10,8 +10,18 @@
 
 @font-face {
   font-family: "ProFontWindows";
-  src: url("./fonts/pro-font-windows-700.woff2") format("woff2");
+  src: url("/fonts/pro-font-windows-700.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
+}
+
+:root {
+  --font-sans: "Urbanist", "Segoe UI", Roboto, Arial, sans-serif;
+  --font-tech: "ProFontWindows", "Cascadia Mono", Consolas, monospace;
+}
+
+/* ProFontWindows does not contain the complete Vietnamese glyph set. */
+:root:lang(vi) {
+  --font-tech: var(--font-sans);
 }
