@@ -57,7 +57,7 @@ const classNames = computed(() => {
   };
 });
 
-const resumeUrl = "/resume.pdf";
+const resumeUrl = "https://drive.google.com/file/d/18zX6o6V0yHpsVPvF3gBj4mMqShABWGlH/view?usp=sharing";
 
 const resumeClassNames = computed(() => {
   return {
